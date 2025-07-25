@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Dictionnaire de Psychologie</title>
+  <style>
+    :root {
+      --orange-pastel: #FFA87A;
+      --creme: #FFF9F1;
+      --blanc: #ffffff;
+      --gris: #333;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--creme);
+      color: var(--gris);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      color: var(--orange-pastel);
+      margin-bottom: 30px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 14px 18px;
+      font-size: 16px;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 25px;
+      background-color: var(--blanc);
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      background: var(--blanc);
+      padding: 16px 20px;
+      margin: 8px 0;
+      cursor: pointer;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    li:hover {
+      background-color: var(--orange-pastel);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    #definition {
+      margin-top: 30px;
+      padding: 24px;
+      background: var(--blanc);
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    #definition h2 {
+      margin-top: 0;
+      color: var(--orange-pastel);
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 20px;
+        padding: 10px;
+      }
+
+      h1 {
+        font-size: 2em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Dictionnaire de Psychologie</h1>
+
+    <input type="text" id="searchInput" placeholder="Rechercher une notion...">
+
+    <ul id="notionList">
+      <!-- Liste dynamique -->
+    </ul>
+
+    <div id="definition">
+      <em>Cliquez sur une notion pour afficher sa définition.</em>
+    </div>
+  </div>
+
+  <script>
+    const notions = {
+      "Cognition": "La cognition regroupe l’ensemble des processus mentaux liés à la connaissance : perception, mémoire, raisonnement, langage, etc.",
+      "Inconscient": "Concept fondamental en psychanalyse désignant les processus mentaux non accessibles à la conscience.",
+      "Empathie": "Capacité à comprendre et ressentir les émotions d’autrui.",
+      "Résilience": "Capacité à faire face aux épreuves et à rebondir après un traumatisme.",
+    };
+
+    const searchInput = document.getElementById("searchInput");
+    const notionList = document.getElementById("notionList");
+    const definition = document.getElementById("definition");
+
+    function updateList(filter = "") {
+      notionList.innerHTML = "";
+      const filtered = Object.keys(notions).filter(notion =>
+        notion.toLowerCase().includes(filter.toLowerCase())
+      );
+
+      if (filtered.length === 0) {
+        notionList.innerHTML = "<li>Aucune notion trouvée.</li>";
+        return;
+      }
+
+      filtered.forEach(notion => {
+        const li = document.createElement("li");
+        li.textContent = notion;
+        li.onclick = () => {
+          definition.innerHTML = `<h2>${notion}</h2><p>${notions[notion]}</p>`;
+        };
+        notionList.appendChild(li);
+      });
+    }
+
+    searchInput.addEventListener("input", () => {
+      updateList(searchInput.value);
+    });
+
+    updateList();
+  </script>
+
+</body>
+</html>

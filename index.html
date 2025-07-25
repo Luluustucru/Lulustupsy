@@ -1,8 +1,8 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Lulustupsy</title>
+  <title>Dictionnaire de Psychologie</title>
   <style>
     :root {
       --orange-pastel: #FFA87A;
@@ -24,7 +24,7 @@
     }
 
     .container {
-      max-width: 900px;
+      max-width: 800px;
       margin: 40px auto;
       padding: 20px;
     }
@@ -33,77 +33,10 @@
       text-align: center;
       font-size: 2.5em;
       color: var(--orange-pastel);
-      margin-bottom: 20px;
-    }
-
-    .categories {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
       margin-bottom: 30px;
-      flex-wrap: wrap;
     }
 
-    .category {
-      padding: 10px 16px;
-      background-color: var(--blanc);
-      border: 2px solid var(--orange-pastel);
-      color: var(--orange-pastel);
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-
-    .category:hover,
-    .category.active {
-      background-color: var(--orange-pastel);
-      color: white;
-    }
-
-    .subcategories, .subjects {
-      margin-top: 20px;
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .subcategories.active,
-    .subjects.active {
-      display: block;
-    }
-
-    .subcategories h3,
-    .subjects h4 {
-      color: var(--orange-pastel);
-      margin-bottom: 10px;
-    }
-
-    .subcategories button,
-    .subjects button {
-      display: inline-block;
-      margin: 6px;
-      padding: 10px 14px;
-      border: none;
-      border-radius: 8px;
-      background-color: var(--blanc);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      color: var(--orange-pastel);
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s ease;
-    }
-
-    .subcategories button:hover,
-    .subjects button:hover {
-      background-color: var(--orange-pastel);
-      color: white;
-    }
-
-    #searchSection, #dictionarySection {
-      display: none;
-    }
-
-    #searchInput {
+    input[type="text"] {
       width: 100%;
       padding: 14px 18px;
       font-size: 16px;
@@ -112,6 +45,11 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       margin-bottom: 25px;
       background-color: var(--blanc);
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
     }
 
     li {
@@ -136,6 +74,7 @@
       background: var(--blanc);
       border-radius: 16px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
     }
 
     #definition h2 {
@@ -143,6 +82,18 @@
       color: var(--orange-pastel);
     }
 
+    @media (max-width: 600px) {
+      .container {
+        margin: 20px;
+        padding: 10px;
+      }
+
+      h1 {
+        font-size: 2em;
+      }
+    }
+
+    /* Note flottante à droite */
     .floating-note {
       position: fixed;
       top: 50%;
@@ -157,295 +108,27 @@
       max-width: 220px;
       font-weight: 600;
       z-index: 1000;
+      cursor: default;
       user-select: none;
-    }
-
-    @media (max-width: 600px) {
-      .categories {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    /* Nouveau style pour le contenu du cours */
-    #psychologie-sociale-cours {
-      padding: 20px;
-      background: var(--creme);
-      border-radius: 12px;
-      margin-top: 20px;
-      color: var(--gris);
-      box-shadow: 0 3px 10px rgba(255, 168, 122, 0.3);
-      max-height: 600px;
-      overflow-y: auto;
-    }
-
-    #psychologie-sociale-cours h2,
-    #psychologie-sociale-cours h3 {
-      color: var(--orange-pastel);
-    }
-
-    #psychologie-sociale-cours ul, #psychologie-sociale-cours ol {
-      margin-left: 20px;
-      margin-bottom: 15px;
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <h1>Lulustupsy</h1>
+    <h1>Dictionnaire de Psychologie</h1>
 
-    <!-- Catégories principales -->
-    <div class="categories">
-      <div class="category" onclick="showSection('cours')">Cours</div>
-      <div class="category" onclick="showSection('fiche')">Fiche</div>
-      <div class="category active" onclick="showSection('dictionnaire')">Dictionnaire de notions</div>
-    </div>
+    <input type="text" id="searchInput" placeholder="Rechercher une notion...">
 
-    <!-- SECTION COURS -->
-    <div id="coursSection" style="display:none">
-      <div class="subcategories active">
-        <h3>Semestres :</h3>
-        <button onclick="showSubjects('s1')">Semestre 1</button>
-        <button onclick="showSubjects('s2')">Semestre 2</button>
-        <button disabled>Semestre 3</button>
-        <button disabled>Semestre 4</button>
-      </div>
+    <ul id="notionList">
+      <!-- Liste dynamique -->
+    </ul>
 
-      <div class="subjects" id="s1Subjects">
-        <h4>Matières - Semestre 1</h4>
-        <button onclick="showCourse('psychologie-sociale')">Psychologie sociale</button>
-        <button>Psychopathologie</button>
-        <button>Psychologie du développement</button>
-        <button>Psychologie cognitive</button>
-        <button>Méthode expérimentale</button>
-        <button>Observation</button>
-        <button>Histoire de la psychologie</button>
-        <button>Neuropsychologie</button>
-      </div>
-
-      <div class="subjects" id="s2Subjects">
-        <h4>Matières - Semestre 2</h4>
-        <button>Psychologie sociale</button>
-        <button>Psychologie clinique</button>
-        <button>Psychologie du développement</button>
-        <button>Psychologie cognitive</button>
-        <button>Neuropsychologie</button>
-        <button>Anthropologie</button>
-        <button>Entretien</button>
-        <button>Statistiques</button>
-      </div>
-
-      <!-- Contenu des cours -->
-      <div id="psychologie-sociale-cours" style="display:none">
-        <h2>CM1 Psychologie sociale</h2>
-        
-        <h3>Préambule</h3>
-        <p>Agression publique avec témoins<br>
-        Latané & Darley (1968, 1970) → non-assistance personne en danger.</p>
-        <p>Meurtre Kitty Genovese, New York 1964 → 37 témoins.</p>
-        <p><strong>Question :</strong> Pourquoi pas intervenu / pas appelé police ?</p>
-        
-        <h3>Explications naïves (sens commun)</h3>
-        <ul>
-          <li>Peur d’être impliqué (facteur individuel).</li>
-          <li>Apathie = indifférence émotionnelle (culture individualiste).</li>
-          <li>Aliénation = se sentir étranger aux autres/valeurs communes (facteur culturel/dispositionnel).</li>
-        </ul>
-        
-        <h3>Explications psycho sociale : 3 hypothèses inhibition sociale</h3>
-        <ul>
-          <li>Ignorance plurielle</li>
-          <li>Appréhension de l’évaluation</li>
-          <li>Diffusion/dilution responsabilité</li>
-        </ul>
-        <p>→ Plus il y a de témoins + ils se connaissent pas = moins d’aide.</p>
-        
-        <h3>Méthode</h3>
-        <p>Étude expérimentale → box isolé, victime, témoins → mesure aide/temps d’intervention → + de témoins = - d’action.</p>
-        <p>Facteurs qui modulent : connaître victime/agresseur, implication perso, nature transgression norme, violence, nombre agresseurs.</p>
-        
-        <h3>Étapes intervention</h3>
-        <ol>
-          <li>Remarquer incident</li>
-          <li>Identifier comme nécessitant aide</li>
-          <li>Se sentir responsable</li>
-          <li>Évaluer avantages/risques</li>
-        </ol>
-        
-        <h3>Quand aide ?</h3>
-        <ul>
-          <li>Urgence claire (pas ambiguë)</li>
-          <li>Témoins vus comme soutien si danger</li>
-          <li>Victime = même groupe (endo-groupe)</li>
-        </ul>
-        
-        <h3>À retenir</h3>
-        <ul>
-          <li>Rupture avec intuitions</li>
-          <li>Personnologisation</li>
-          <li>Hypothèses testées par faits</li>
-          <li>Méthode expérimentale</li>
-          <li>Réplication de l’effet témoin</li>
-        </ul>
-        
-        <h3>Objectif cours</h3>
-        <ul>
-          <li>Rupture sens commun (rupture épistémique)</li>
-          <li>Connaître concepts de base psycho sociale</li>
-          <li>Se familiariser avec pensée psychosociale (outils théoriques/empiriques)</li>
-          <li>Domaines d’application → pistes action</li>
-        </ul>
-        
-        <h3>Définitions psycho sociale</h3>
-        <p><strong>Allport 1968</strong><br>
-        → Comprendre/expliquer comment pensées, sentiments, comportements sont influencés par autrui réel, imaginaire ou implicite (et inverse).<br>
-        → Jugements, émotions, comportements, normes sociales, socialisation.</p>
-        
-        <p><strong>Myers & Lamarche 1992</strong><br>
-        → Étude scientifique de comment les gens se pensent, se sentent, agissent en présence d’autrui ou sous influence.</p>
-        
-        <p><strong>Beauvois 1998</strong><br>
-  → Étudie comportements, jugements, affects, performances des humains en tant que membres de collectifs sociaux ou positions sociales.<br>
-  → Dépendant des appartenances et positions sociales.</p>
-  
-  <p><strong>Leyens 1979</strong><br>
-  Psycho sociale = psycho ou socio ? Ambiguïté → 1 fondateur psycho, 1 fondateur socio.<br>
-  Orientation actuelle : psycho sociale psychologique.<br>
-  Articulation psycho/socio = référentiels propres.<br>
-  Pas juste psycho + socio → spécialité hybride.</p>
-  
-  <h3>Niveaux d’analyse (Doise 1982)</h3>
-  <ul>
-    <li>Intra-individuel</li>
-    <li>Interindividuel & situationnel</li>
-    <li>Intergroupe & positionnel</li>
-    <li>(Inter)culturel & idéologique</li>
-  </ul>
-  
-  <h3>Psycho des groupes</h3>
-  <p>Variété des approches → méthodes via influences sociales + personnologie</p>
-  
-  <h3>Influences sociales</h3>
-  <p>Général : indirectes / inconscientes (ex : effet témoin).<br>
-  → On influence / on est influencé dans quotidien.</p>
-  
-  <h3>Effets de perception :</h3>
-  <ul>
-    <li>3ème personne (Davison 1986) : pense que autres + influençables que soi (surtout si influence négative).</li>
-    <li>1ère personne (Perloff 1989) : pense qu’on peut être influencé si influence bénéfique.</li>
-
-<h2>CM2 Psychologie sociale</h2>
-        <h3>Influences sociales</h3>
-        <p>Beauvois (2005) : « voir les gens s’envoler → connaître leurs chaînes »</p>
-        <p>Influences indirectes et inconscientes (ex : effet témoin) mais aussi présentes dans le quotidien.</p>
-
-        <h3>Effet 3ème et 1ère personne</h3>
-        <ul>
-          <li><strong>Effet 3ème personne</strong> (Davison, 1986) : penser que les autres sont plus influençables que soi, surtout si influence jugée négative.</li>
-          <li><strong>Effet 1ère personne</strong> (Perloff, 1989) : penser que nous pouvons être influencés si influence jugée bénéfique pour nous.</li>
-        </ul>
-
-        <h3>Soumission à l’autorité / Obéissance</h3>
-        <p>Expérience Milgram (1933-1984), publiée en 1974 (Yale, 1962). Étudie soumission à l’obéissance.</p>
-        <h4>Phase 1 : enquête (questionnaire)</h4>
-        <ul>
-          <li>Psychiatres (39) : 1/1000 irait à 450 volts.</li>
-          <li>Personnes « tout venant » : personne n’atteindrait une telle décharge.</li>
-          <li>Étudiants : personne ne dépasserait 210 volts.</li>
-        </ul>
-        <h4>Phase 2 : expérimentation</h4>
-        <p>Participation annoncée avec 4$ → 40 participants.<br>
-        Étude sur punition et mémoire.</p>
-        <p><strong>Rôles :</strong></p>
-        <ul>
-          <li>Expérimentateur = chercheur (autorité)</li>
-          <li>Sujet naïf = instructeur</li>
-          <li>Compère = élève</li>
-        </ul>
-        <p>Taux obéissance totale : 65% (26/40 participants).</p>
-        <p>Variantes : + obéissance chez les femmes (65%), autres conditions = 20,5% (distance).</p>
-
-        <h3>Facteurs de fluctuation de l’obéissance</h3>
-        <h4>Facteurs situationnels</h4>
-        <ul>
-          <li>Distance/proximité victime et autorité.</li>
-          <li>Légitimité de l’autorité.</li>
-          <li>Caractéristiques du groupe.</li>
-        </ul>
-        <h4>Facteurs individuels</h4>
-        <ul>
-          <li>Traits de personnalité (agressivité).</li>
-          <li>Caractéristiques personnelles → études :</li>
-          <ul>
-            <li>Blass (1991) : + soumission = tendance autoritaire, faible intelligence sociale, hostilité.</li>
-            <li>Beauvois, Courbet & Oberlé (2012) : + soumission = amabilité + conscience élevée.</li>
-            <li>Bègue (2013) : + rébellion = activité élevée + orientation politique gauche.</li>
-          </ul>
-          <li>Conclusion : impact caractéristiques personnelles faible par rapport à impact situation.</li>
-        </ul>
-
-        <h3>Explications majeures</h3>
-        <ul>
-          <li><strong>État agentique</strong> :<br>
-              Changement d’état : autonomie → agent exécutif d’une autorité.<br>
-              Perte de contrôle et déresponsabilisation → autorité prend responsabilité.
-          </li>
-          <li><strong>Continuité de l’action (norme de consistance)</strong> :<br>
-              Progression par étapes de gravité croissante.<br>
-              Circonstances favorisent obéissance.
-          </li>
-          <li><strong>Loi de l’impact social (Latané, 1970)</strong> : puissance, immédiateté, nombre.</li>
-          <li><strong>Croyance en monde juste (Lerner, 1980)</strong> :<br>
-              Victime blâmée → maintien croyance en monde juste.<br>
-              Dévalorisation/déshumanisation de la victime (reproche à l’élève pour ses erreurs).
-          </li>
-        </ul>
-
-        <h3>Lerner & Simmons (1966) : test de cette hypothèse</h3>
-        <p>Sujet = femmes (étudiantes TD perception émotions).</p>
-        <p>Vision d’une collègue recevant des chocs douloureux pendant tâche d’apprentissage.</p>
-        <p>Jugement sur : intelligence, gentillesse, sympathie, personne elle-même.</p>
-        <p>Variantes :</p>
-        <ul>
-          <li>Événement passé, fin, milieu.</li>
-          <li>Décision de récompense.</li>
-          <li>Récompense.</li>
-        </ul>
-        <p>Résultat :</p>
-        <ul>
-          <li>Martyre → souffre pour aider l’autre → paradoxalement jugée plus négativement.</li>
-        </ul>
-        <p>Explication : dissonance cognitive → inconfort psychologique → blâme pour restaurer équilibre.</p>
-
-        <h3>Autres biais et exemples</h3>
-        <ul>
-          <li>Fischhoff (1975) : victimes de viol → biais rétrospectif (hindsight bias) : tendance à rationaliser après coup et voir l’événement comme prévisible.</li>
-          <li>Procès Jérusalem (1961) – Adolf Eichmann : défense = obéissance aux ordres.</li>
-          <li>Hannah Arendt : parle de « banalité du mal ».</li>
-  </ul>
-</div>
-    </div>
-
-    <!-- SECTION FICHE -->
-    <div id="ficheSection">
-      <p><em>À venir : fiches récapitulatives...</em></p>
-    </div>
-
-    <!-- SECTION DICTIONNAIRE -->
-    <div id="dictionarySection">
-      <input type="text" id="searchInput" placeholder="Rechercher une notion...">
-      <ul id="notionList"></ul>
-      <div id="definition"><em>Cliquez sur une notion pour afficher sa définition.</em></div>
+    <div id="definition">
+      <em>Cliquez sur une notion pour afficher sa définition.</em>
     </div>
   </div>
 
-  <!-- NOTE FLOTTANTE -->
   <div class="floating-note">
     Quand vous arrivez sur le site, faites <strong>CTRL+F5</strong> pour actualiser la page et vérifier si de nouvelles notions ont été ajoutées !
   </div>
@@ -488,31 +171,6 @@
     });
 
     updateList();
-
-    function showSection(section) {
-      document.querySelectorAll(".category").forEach(el => el.classList.remove("active"));
-      event.target.classList.add("active");
-
-      document.getElementById("coursSection").style.display = section === 'cours' ? 'block' : 'none';
-      document.getElementById("ficheSection").style.display = section === 'fiche' ? 'block' : 'none';
-      document.getElementById("dictionarySection").style.display = section === 'dictionnaire' ? 'block' : 'block'; // affiché par défaut
-      if(section !== 'dictionnaire') document.getElementById("dictionarySection").style.display = 'none';
-    }
-
-    function showSubjects(semestre) {
-      document.querySelectorAll(".subjects").forEach(el => el.classList.remove("active"));
-      document.getElementById(`${semestre}Subjects`).classList.add("active");
-    }
-
-    function showCourse(cours) {
-      // Masquer toutes les sections de cours détaillés
-      document.querySelectorAll("#coursSection > div[id$='cours']").forEach(el => el.style.display = 'none');
-
-      // Afficher le cours demandé
-      if(cours === 'psychologie-sociale') {
-        document.getElementById("psychologie-sociale-cours").style.display = 'block';
-      }
-    }
   </script>
 
 </body>
